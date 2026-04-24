@@ -1,0 +1,19 @@
+{
+  "name": "electvoice-server",
+  "version": "1.0.0",
+  "description": "ElectVoice backend API server",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest --forceExit --detectOpenHandles"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 10000
+  },
+  "keywords": ["election", "education", "gemini", "india"],
+  "author": "",
+  "license": "ISC"
+}

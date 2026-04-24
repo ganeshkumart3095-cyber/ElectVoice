@@ -1,0 +1,318 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Outfit', system-ui, sans-serif;
+
+  /* Brand Colors */
+  --color-saffron-400: #ffb86b;
+  --color-saffron-500: #ff7308;
+  --color-saffron-600: #e85c00;
+  --color-india-green: #138808;
+  --color-india-blue: #1a237e;
+}
+
+/* ── Base Reset & Body ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #0d1117;
+  color: #e6edf3;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 153, 51, 0.5);
+}
+
+/* ── Glassmorphism ── */
+.glass {
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 153, 51, 0.12);
+}
+
+/* ── Gradient utilities ── */
+.gradient-saffron {
+  background: linear-gradient(135deg, #ff9933 0%, #c94800 100%);
+}
+
+.text-gradient-saffron {
+  background: linear-gradient(135deg, #ff9933, #ffb86b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-tricolor {
+  background: linear-gradient(135deg, #ff9933 0%, #ffe0a0 50%, #138808 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glow ── */
+.glow-saffron {
+  box-shadow: 0 0 18px rgba(255, 153, 51, 0.35), 0 0 40px rgba(255, 153, 51, 0.1);
+}
+
+/* ── Keyframes ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 153, 51, 0.25); }
+  50% { box-shadow: 0 0 20px rgba(255, 153, 51, 0.55), 0 0 40px rgba(255, 153, 51, 0.15); }
+}
+
+@keyframes typingBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: calc(400px + 100%) 0; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.35s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.35s ease-out both;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.4s ease-in-out infinite;
+}
+
+/* ── Typing dots ── */
+.typing-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff9933;
+  animation: typingBounce 1.1s ease-in-out infinite;
+}
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.18s; }
+.typing-dot:nth-child(3) { animation-delay: 0.36s; }
+
+/* ── Markdown content styles ── */
+.markdown-content {
+  line-height: 1.75;
+  font-size: 0.9rem;
+  color: #d1d9e0;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+  color: #ff9933;
+}
+
+.markdown-content h1 { font-size: 1.35rem; }
+.markdown-content h2 { font-size: 1.15rem; }
+.markdown-content h3 { font-size: 1rem; }
+
+.markdown-content p {
+  margin: 0.4rem 0;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin: 0.5rem 0 0.5rem 1.25rem;
+}
+
+.markdown-content li {
+  margin: 0.25rem 0;
+}
+
+.markdown-content strong {
+  color: #ffd88a;
+  font-weight: 600;
+}
+
+.markdown-content em {
+  color: #adb9c4;
+  font-style: italic;
+}
+
+.markdown-content code {
+  background: rgba(255, 153, 51, 0.1);
+  border: 1px solid rgba(255, 153, 51, 0.2);
+  padding: 0.1rem 0.4rem;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  color: #ff9933;
+  font-family: 'Courier New', monospace;
+}
+
+.markdown-content a {
+  color: #ff9933;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown-content a:hover {
+  color: #ffb86b;
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid rgba(255, 153, 51, 0.5);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  color: #8b949e;
+  font-style: italic;
+}
+
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0.75rem 0;
+}
+
+/* ── Skeleton loading ── */
+.skeleton {
+  background: linear-gradient(90deg, #161b22 25%, #1e262f 50%, #161b22 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.6s infinite;
+  border-radius: 6px;
+}
+
+/* ── Tab buttons ── */
+.tab-btn {
+  position: relative;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #8b949e;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: #c9d1d9;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.active {
+  color: #ff9933;
+  background: rgba(255, 153, 51, 0.1);
+  font-weight: 600;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, #ff9933, #ffb86b);
+  border-radius: 1px;
+}
+
+/* ── Step expand animation ── */
+.step-content {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease;
+}
+
+.step-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+.step-content.expanded {
+  max-height: 900px;
+  opacity: 1;
+}
+
+/* ── Google Map container ── */
+#google-map {
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  border-radius: 14px;
+}
+
+/* ── App fills viewport via flex column ── */
+#root > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
