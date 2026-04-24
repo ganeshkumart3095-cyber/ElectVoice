@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
 import {
   MessageCircle,
@@ -15,10 +15,13 @@ import {
 import { AppProvider, useAppContext } from './context/AppContext';
 import LanguageToggle from './components/LanguageToggle';
 import ChatWindow from './components/ChatWindow';
-import StepperGuide from './components/StepperGuide';
-import BoothLocator from './components/BoothLocator';
-import NewsSection from './components/NewsSection';
-import Timeline from './components/Timeline';
+import ErrorBoundary from './components/ErrorBoundary';
+
+// Lazy load heavy components for better performance (Code Splitting)
+const StepperGuide = lazy(() => import('./components/StepperGuide'));
+const BoothLocator = lazy(() => import('./components/BoothLocator'));
+const NewsSection = lazy(() => import('./components/NewsSection'));
+const Timeline = lazy(() => import('./components/Timeline'));
 
 const TABS = [
   { id: 'chat', label: 'AI Chat', icon: MessageCircle, description: 'Ask Gemini AI' },
@@ -31,14 +34,6 @@ const TABS = [
 function AppContent() {
   const { activeTab, setActiveTab } = useAppContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const ActiveComponent = {
-    chat: ChatWindow,
-    guide: StepperGuide,
-    booths: BoothLocator,
-    news: NewsSection,
-    timeline: Timeline,
-  }[activeTab];
 
   const isChatTab = activeTab === 'chat';
 

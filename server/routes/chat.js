@@ -5,9 +5,15 @@ const { chatRateLimiter } = require('../middleware/rateLimit');
 
 const router = express.Router();
 
-// Sanitize user input — strip HTML tags
+const xss = require('xss');
+
+// Sanitize user input — block XSS attacks and strip HTML tags completely
 function sanitizeInput(text) {
-  return text.replace(/<[^>]*>/g, '').trim();
+  return xss(text, {
+    whiteList: {}, // completely strip all HTML tags
+    stripIgnoreTag: true,
+    stripIgnoreTagBody: ['script', 'style', 'xml', 'iframe', 'embed']
+  }).trim();
 }
 
 // Build the system prompt based on language
