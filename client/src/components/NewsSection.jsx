@@ -67,7 +67,7 @@ export default function NewsSection() {
       </div>
 
       {/* Search bar */}
-      <form onSubmit={handleSearch} className="flex gap-2">
+      <div className="flex gap-2">
         <div className="relative flex-1">
           <Search
             size={14}
@@ -79,6 +79,11 @@ export default function NewsSection() {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && inputValue.trim()) {
+                handleSearch(e);
+              }
+            }}
             placeholder="Search election topics..."
             aria-label="Search election news"
             className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all"
@@ -92,7 +97,8 @@ export default function NewsSection() {
           />
         </div>
         <button
-          type="submit"
+          type="button"
+          onClick={handleSearch}
           disabled={isLoading}
           aria-label="Search news"
           className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:scale-105 disabled:opacity-60 cursor-pointer ml-2 flex-shrink-0"
@@ -100,7 +106,7 @@ export default function NewsSection() {
         >
           Search
         </button>
-      </form>
+      </div>
 
       {/* Quick topic chips */}
       <div className="flex flex-wrap gap-2 justify-center sm:justify-start">

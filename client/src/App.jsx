@@ -31,11 +31,20 @@ const TABS = [
   { id: 'timeline', label: 'Timeline', icon: Clock, description: '1952–2025' },
 ];
 
+const TAB_COMPONENTS = {
+  chat: ChatWindow,
+  guide: StepperGuide,
+  booths: BoothLocator,
+  news: NewsSection,
+  timeline: Timeline,
+};
+
 function AppContent() {
   const { activeTab, setActiveTab } = useAppContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isChatTab = activeTab === 'chat';
+  const ActiveComponent = TAB_COMPONENTS[activeTab] ?? null;
 
   return (
     <div
@@ -230,15 +239,26 @@ function AppContent() {
         style={{ minHeight: 0 }}
       >
         <div
-          className={`rounded-2xl overflow-hidden flex flex-col ${isChatTab ? 'flex-1' : ''}`}
+          className={`rounded-2xl overflow-hidden flex flex-col ${isChatTab ? 'flex-1 min-h-0' : ''}`}
           style={{
             background: 'rgba(22,27,34,0.65)',
             border: '1px solid rgba(255,255,255,0.08)',
             backdropFilter: 'blur(20px)',
           }}
         >
-          <div className={`flex flex-col ${isChatTab ? 'flex-1' : 'p-4 sm:p-6'}`}>
-            {ActiveComponent && <ActiveComponent />}
+          <div className={`flex flex-col ${isChatTab ? 'flex-1 min-h-0' : 'p-4 sm:p-6'}`}>
+            <ErrorBoundary>
+              <Suspense fallback={
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="animate-pulse flex flex-col items-center">
+                    <div className="w-12 h-12 border-4 border-[#FF9933] border-t-transparent rounded-full animate-spin mb-4" />
+                    <p className="text-[#8b949e]">Loading module...</p>
+                  </div>
+                </div>
+              }>
+                {ActiveComponent && <ActiveComponent />}
+              </Suspense>
+            </ErrorBoundary>
           </div>
         </div>
       </main>

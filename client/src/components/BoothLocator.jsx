@@ -234,6 +234,40 @@ export default function BoothLocator() {
             Search
           </button>
         </form>
+
+        {/* View Toggles */}
+        <div 
+          className="flex items-center gap-1 p-1 rounded-xl flex-shrink-0 h-[42px]" 
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+        >
+          <button
+            type="button"
+            onClick={() => setActiveView('split')}
+            className={`px-3 h-full rounded-lg text-xs font-semibold transition-all ${
+              activeView === 'split' ? 'bg-[#FF9933] text-white' : 'text-[#8b949e] hover:text-white'
+            }`}
+          >
+            Split
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveView('map')}
+            className={`px-3 h-full rounded-lg text-xs font-semibold transition-all ${
+              activeView === 'map' ? 'bg-[#FF9933] text-white' : 'text-[#8b949e] hover:text-white'
+            }`}
+          >
+            Map
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveView('list')}
+            className={`px-3 h-full rounded-lg text-xs font-semibold transition-all ${
+              activeView === 'list' ? 'bg-[#FF9933] text-white' : 'text-[#8b949e] hover:text-white'
+            }`}
+          >
+            List
+          </button>
+        </div>
       </div>
 
       {/* Error messages */}
@@ -255,8 +289,9 @@ export default function BoothLocator() {
       {/* Map + List grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4" style={{ minHeight: '450px' }}>
         {/* Map */}
+        {(activeView === 'split' || activeView === 'map') && (
         <div
-          className="lg:col-span-2 rounded-2xl overflow-hidden relative"
+          className={`${activeView === 'map' ? 'lg:col-span-3' : 'lg:col-span-2'} rounded-2xl overflow-hidden relative`}
           style={{
             background: 'rgba(22,27,34,0.8)',
             border: '1px solid rgba(255,255,255,0.07)',
@@ -281,17 +316,19 @@ export default function BoothLocator() {
               </p>
             </div>
           )}
-          <div
-            ref={mapRef}
-            id="google-map"
-            aria-label="Google Map showing polling booths"
-            style={{ width: '100%', height: '100%', minHeight: '400px' }}
-          />
-        </div>
+            <div
+              ref={mapRef}
+              id="google-map"
+              aria-label="Google Map showing polling booths"
+              style={{ width: '100%', height: '100%', minHeight: '400px' }}
+            />
+          </div>
+        )}
 
         {/* Booth list sidebar */}
+        {(activeView === 'split' || activeView === 'list') && (
         <div
-          className="rounded-2xl overflow-hidden flex flex-col"
+          className={`${activeView === 'list' ? 'lg:col-span-3' : 'lg:col-span-1'} rounded-2xl overflow-hidden flex flex-col`}
           style={{
             background: 'rgba(22,27,34,0.8)',
             border: '1px solid rgba(255,255,255,0.07)',
@@ -347,7 +384,8 @@ export default function BoothLocator() {
               </div>
             )}
           </div>
-        </div>
+          </div>
+        )}
       </div>
 
       <p className="text-xs text-center" style={{ color: '#484f58' }}>
