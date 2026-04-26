@@ -326,6 +326,12 @@ export default function StepperGuide() {
                   <p className="text-xs mt-0.5" style={{ color: '#8b949e' }}>
                     {step.subtitle}
                   </p>
+                  <p
+                    className="mt-1 text-xs leading-relaxed"
+                    style={{ color: '#8b949e' }}
+                  >
+                    {step.summary}
+                  </p>
                 </div>
 
                 {/* Chevron */}
@@ -333,14 +339,6 @@ export default function StepperGuide() {
                   {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
                 </div>
               </button>
-
-              {/* Summary — always visible */}
-              <p
-                className="px-4 pb-3 text-xs leading-relaxed"
-                style={{ color: '#8b949e', marginTop: '-8px' }}
-              >
-                {step.summary}
-              </p>
 
               {/* Expandable details */}
               <div

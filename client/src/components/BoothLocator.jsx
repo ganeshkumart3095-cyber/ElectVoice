@@ -180,7 +180,7 @@ export default function BoothLocator() {
       </div>
 
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-3 items-stretch">
+      <div className="flex flex-col sm:flex-row gap-3 items-stretch flex-shrink-0 overflow-hidden">
         <button
           onClick={handleUseMyLocation}
           disabled={isLoadingBooths}
@@ -307,8 +307,15 @@ export default function BoothLocator() {
             </div>
           )}
           {mapError && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-              <MapPin size={48} style={{ color: '#FF9933', opacity: 0.3 }} />
+            <div 
+              className="absolute inset-0 m-6 flex flex-col items-center justify-center gap-3 rounded-2xl"
+              style={{
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.05)'
+              }}
+            >
+              <MapPin size={48} style={{ color: '#FF9933', opacity: 0.4 }} />
+              <h3 className="text-lg font-semibold text-white">Map unavailable</h3>
               <p className="text-sm text-center px-8" style={{ color: '#8b949e' }}>
                 Google Maps requires a valid API key.
                 <br />

@@ -176,7 +176,7 @@ function AppContent() {
             borderColor: 'rgba(255,153,51,0.12)',
           }}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
             <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 text-center md:text-left">
               {/* Left: heading */}
               <div className="flex-1 flex flex-col items-center md:items-start">
@@ -191,7 +191,7 @@ function AppContent() {
                   <Zap size={11} />
                   Powered by Google Gemini AI
                 </div>
-                <h2 className="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-white leading-tight mb-2">
+                <h2 className="font-display font-extrabold text-xl sm:text-2xl text-white leading-tight mb-2">
                   Your <span className="text-gradient-saffron">Election</span> Education <span style={{ color: '#138808' }}>Companion</span>
                 </h2>
                 <p className="text-sm leading-relaxed mx-auto md:mx-0" style={{ color: '#8b949e', maxWidth: '480px' }}>
@@ -208,7 +208,7 @@ function AppContent() {
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="text-center px-4 py-3 rounded-2xl flex-1 min-w-0"
+                    className="text-center px-3 py-2 rounded-2xl flex-1 min-w-0"
                     style={{
                       background: 'rgba(255,255,255,0.04)',
                       border: '1px solid rgba(255,255,255,0.08)',
@@ -233,20 +233,20 @@ function AppContent() {
 
       {/* ── Main content — flex-1 fills remaining viewport ── */}
       <main
-        className={`flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 overflow-hidden ${
-          isChatTab ? 'py-3' : 'py-6'
+        className={`flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 ${
+          isChatTab ? 'py-3 overflow-hidden' : 'py-6 overflow-y-auto'
         }`}
         style={{ minHeight: 0 }}
       >
         <div
-          className={`rounded-2xl overflow-hidden flex flex-col ${isChatTab ? 'flex-1 min-h-0' : ''}`}
+          className={`rounded-2xl overflow-hidden flex flex-col w-full ${isChatTab ? 'flex-1 min-h-0' : 'min-h-full'}`}
           style={{
             background: 'rgba(22,27,34,0.65)',
             border: '1px solid rgba(255,255,255,0.08)',
             backdropFilter: 'blur(20px)',
           }}
         >
-          <div className={`flex flex-col ${isChatTab ? 'flex-1 min-h-0' : 'p-4 sm:p-6'}`}>
+          <div className={`flex flex-col w-full ${isChatTab ? 'flex-1 min-h-0' : 'p-4 sm:p-6'}`}>
             <ErrorBoundary>
               <Suspense fallback={
                 <div className="flex-1 flex items-center justify-center">

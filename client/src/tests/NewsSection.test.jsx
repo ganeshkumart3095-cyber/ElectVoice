@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import NewsSection from '../components/NewsSection';
 
 // Mock the searchService
@@ -73,11 +73,26 @@ describe('NewsSection', () => {
     await waitFor(() => screen.getByLabelText('Search election news'));
 
     const input = screen.getByLabelText('Search election news');
-    fireEvent.change(input, { target: { value: 'EVM voting' } });
-    fireEvent.submit(input.closest('form'));
+    const searchButton = screen.getByLabelText('Search news');
+
+    // Test search via button click
+    await act(async () => {
+      fireEvent.change(input, { target: { value: 'EVM voting' } });
+      fireEvent.click(searchButton);
+    });
 
     await waitFor(() => {
       expect(fetchElectionNews).toHaveBeenCalledWith('EVM voting');
+    });
+
+    // Test search via Enter key
+    await act(async () => {
+      fireEvent.change(input, { target: { value: 'Voter ID' } });
+      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+    });
+
+    await waitFor(() => {
+      expect(fetchElectionNews).toHaveBeenCalledWith('Voter ID');
     });
   });
 });

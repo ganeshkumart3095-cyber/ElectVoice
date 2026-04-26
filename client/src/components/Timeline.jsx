@@ -3,6 +3,8 @@ import { Calendar, Trophy, Clock, ChevronRight, Loader2 } from 'lucide-react';
 import { fetchTimeline } from '../services/searchService';
 import { useAppContext } from '../context/AppContext';
 import { sendChatMessage } from '../services/geminiService';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const TYPE_CONFIG = {
   historical: { label: 'Historical', color: '#8b949e', bg: 'rgba(139,148,158,0.1)' },
@@ -136,7 +138,7 @@ export default function Timeline() {
                 >
                   {/* Label above */}
                   {isAbove && (
-                    <div className="absolute w-32 text-center" style={{ bottom: '100%', marginBottom: '12px' }}>
+                    <div className="absolute z-0 w-32 text-center" style={{ bottom: '100%', marginBottom: '12px' }}>
                       <p
                         className="text-xs font-semibold leading-tight"
                         style={{ color: isSelected ? config.color : '#8b949e' }}
@@ -165,7 +167,7 @@ export default function Timeline() {
 
                   {/* Label below */}
                   {!isAbove && (
-                    <div className="absolute w-32 text-center" style={{ top: '100%', marginTop: '12px' }}>
+                    <div className="absolute z-0 w-32 text-center" style={{ top: '100%', marginTop: '12px' }}>
                       <p
                         className="text-xs font-semibold leading-tight"
                         style={{ color: isSelected ? config.color : '#8b949e' }}
@@ -187,7 +189,7 @@ export default function Timeline() {
       {/* Detail panel */}
       {selectedEvent && (
         <div
-          className="rounded-2xl p-5 animate-fade-in"
+          className="relative z-10 rounded-2xl p-5 animate-fade-in"
           style={{
             background: 'rgba(22,27,34,0.9)',
             border: `1px solid ${TYPE_CONFIG[selectedEvent.type]?.color || '#8b949e'}33`,
@@ -261,8 +263,10 @@ export default function Timeline() {
                 </span>
               </div>
             ) : (
-              <div className="markdown-content text-sm" style={{ whiteSpace: 'pre-line' }}>
-                {explanation || selectedEvent.description}
+              <div className="markdown-content text-sm">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {explanation || selectedEvent.description}
+                </ReactMarkdown>
               </div>
             )}
           </div>

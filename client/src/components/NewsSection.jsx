@@ -46,7 +46,7 @@ export default function NewsSection() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pt-4">
         <div>
           <h2 className="font-display font-bold text-2xl text-gradient-saffron">
             Election News
@@ -177,10 +177,13 @@ function NewsCard({ item, index, getFaviconUrl }) {
       href={item.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="block rounded-2xl p-4 transition-all hover:scale-[1.01] animate-fade-in-up group"
+      className="block transition-all hover:scale-[1.01] animate-fade-in-up group"
       style={{
-        background: 'rgba(22,27,34,0.8)',
+        background: 'rgba(255,255,255,0.02)',
         border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '12px',
+        padding: '12px 16px',
+        marginBottom: '8px',
         animationDelay: `${index * 0.07}s`,
         textDecoration: 'none',
       }}

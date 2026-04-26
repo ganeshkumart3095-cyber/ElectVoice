@@ -70,7 +70,7 @@ export default function ChatWindow() {
 
   return (
     <div
-      className="flex flex-col"
+      className="flex flex-col w-full"
       style={{ height: '100%', minHeight: 0 }}
     >
       {/* ── Chat Header ── */}
@@ -209,12 +209,12 @@ export default function ChatWindow() {
             <Sparkles size={11} />
             Suggested questions
           </p>
-          <div className="flex flex-wrap justify-center sm:justify-start gap-2.5">
+          <div className="flex overflow-x-auto pb-1 gap-2">
             {SUGGESTED_QUESTIONS.map((q) => (
               <button
                 key={q}
                 onClick={() => handleSend(q)}
-                className="text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105 cursor-pointer"
+                className="flex-shrink-0 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105 cursor-pointer"
                 style={{
                   background: 'rgba(255,153,51,0.08)',
                   border: '1px solid rgba(255,153,51,0.22)',
