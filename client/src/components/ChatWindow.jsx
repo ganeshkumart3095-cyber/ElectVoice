@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Send, Trash2, Bot, User, Sparkles, AlertCircle, RefreshCw } from 'lucide-react';
+import PropTypes from 'prop-types';
 import { useAppContext } from '../context/AppContext';
 import { sendChatMessage } from '../services/geminiService';
 
@@ -41,6 +42,11 @@ export default function ChatWindow() {
       const userMessage = { role: 'user', parts: [{ text: messageText }] };
       addMessage(userMessage);
       setIsLoading(true);
+
+      // GA4 Tracking
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'chat_message_sent', { language });
+      }
 
       try {
         const updatedMessages = [...messages, userMessage];
@@ -359,3 +365,16 @@ function ChatMessage({ message, index }) {
     </div>
   );
 }
+
+ChatMessage.propTypes = {
+  message: PropTypes.shape({
+    role: PropTypes.string.isRequired,
+    parts: PropTypes.arrayOf(
+      PropTypes.shape({
+        text: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+};
+

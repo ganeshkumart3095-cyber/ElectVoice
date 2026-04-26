@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Calendar, Trophy, Clock, ChevronRight, Loader2 } from 'lucide-react';
+import PropTypes from 'prop-types';
 import { fetchTimeline } from '../services/searchService';
 import { useAppContext } from '../context/AppContext';
 import { sendChatMessage } from '../services/geminiService';
@@ -290,3 +291,10 @@ function StatBadge({ label, value, icon }) {
     </div>
   );
 }
+
+StatBadge.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  icon: PropTypes.string.isRequired,
+};
+

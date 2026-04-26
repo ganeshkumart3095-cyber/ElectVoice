@@ -43,6 +43,13 @@ function AppContent() {
   const { activeTab, setActiveTab } = useAppContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'tab_change', { tab_name: tabId });
+    }
+  };
+
   const isChatTab = activeTab === 'chat';
   const ActiveComponent = TAB_COMPONENTS[activeTab] ?? null;
 
@@ -85,7 +92,7 @@ function AppContent() {
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabChange(tab.id)}
                   aria-current={activeTab === tab.id ? 'page' : undefined}
                   className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
                   title={tab.description}
@@ -141,7 +148,7 @@ function AppContent() {
                 <button
                   key={tab.id}
                   onClick={() => {
-                    setActiveTab(tab.id);
+                    handleTabChange(tab.id);
                     setMobileMenuOpen(false);
                   }}
                   aria-current={activeTab === tab.id ? 'page' : undefined}

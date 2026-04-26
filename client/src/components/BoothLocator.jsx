@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { MapPin, Navigation, List, Search, ExternalLink, Loader2 } from 'lucide-react';
+import PropTypes from 'prop-types';
 import { fetchPollingBooths } from '../services/searchService';
 import { loadGoogleMapsScript, getUserLocation } from '../services/mapsService';
 
@@ -19,6 +20,7 @@ export default function BoothLocator() {
 
   const mapRef = useRef(null);
   const googleMapRef = useRef(null);
+  const searchInputRef = useRef(null);
   const markersRef = useRef([]);
   const infoWindowRef = useRef(null);
 
@@ -31,6 +33,26 @@ export default function BoothLocator() {
       .then(() => {
         setMapLoaded(true);
         setIsLoadingMap(false);
+
+        // Initialize Google Places Autocomplete
+        if (searchInputRef.current && window.google) {
+          const autocomplete = new window.google.maps.places.Autocomplete(searchInputRef.current, {
+            types: ['(regions)'],
+            componentRestrictions: { country: 'in' },
+          });
+
+          autocomplete.addListener('place_changed', () => {
+            const place = autocomplete.getPlace();
+            if (place.geometry) {
+              setConstituencyInput(place.formatted_address);
+              handleSearch(
+                place.formatted_address,
+                place.geometry.location.lat(),
+                place.geometry.location.lng()
+              );
+            }
+          });
+        }
       })
       .catch((err) => {
         setMapError(err.message);
@@ -77,6 +99,19 @@ export default function BoothLocator() {
       setIsLoadingBooths(false);
     }
   }, []);
+
+  const handleSearch = useCallback(
+    async (address, lat, lng) => {
+      setIsLoadingBooths(true);
+      setBoothError(null);
+      if (googleMapRef.current) {
+        googleMapRef.current.setCenter({ lat, lng });
+        googleMapRef.current.setZoom(14);
+      }
+      await loadBoothsByLocation(lat, lng);
+    },
+    [loadBoothsByLocation]
+  );
 
   const placeMarkers = (boothList) => {
     // Clear existing markers
@@ -206,6 +241,7 @@ export default function BoothLocator() {
               style={{ color: '#8b949e' }}
             />
             <input
+              ref={searchInputRef}
               id="constituency-search"
               type="text"
               value={constituencyInput}
@@ -466,6 +502,20 @@ function BoothListItem({ booth, isSelected, onClick }) {
     </div>
   );
 }
+
+BoothListItem.propTypes = {
+  booth: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    boothNo: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+    distance: PropTypes.string,
+  }).isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 // Dark map styles for Google Maps
 const DARK_MAP_STYLES = [

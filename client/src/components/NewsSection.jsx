@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Search, ExternalLink, RefreshCw, Newspaper } from 'lucide-react';
+import PropTypes from 'prop-types';
 import { fetchElectionNews } from '../services/searchService';
 
 /**
@@ -244,3 +245,15 @@ function NewsCardSkeleton() {
     </div>
   );
 }
+
+NewsCard.propTypes = {
+  item: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
+    snippet: PropTypes.string.isRequired,
+    displayLink: PropTypes.string.isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  getFaviconUrl: PropTypes.func.isRequired,
+};
+

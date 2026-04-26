@@ -1,5 +1,9 @@
 # 🇮🇳 ElectVoice — AI-Powered Election Process Education Assistant
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-orange?style=for-the-badge)](https://electvoice.onrender.com)
+[![CI](https://github.com/Ganesh-0509/electvoice/actions/workflows/main.yml/badge.svg)](https://github.com/Ganesh-0509/electvoice/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 > **Challenge Vertical:** Election Process Education  
 > **Tech Stack:** React · Node.js + Express · Google Gemini API · Google Maps JS API · Google Custom Search API · Tailwind CSS v4
 
@@ -8,6 +12,30 @@
 ## 📖 Project Overview
 
 **ElectVoice** is a full-stack web application that acts as a smart, conversational assistant helping Indian citizens understand the complete election process. It combines Google Gemini's AI capabilities with Google Maps and Custom Search to deliver a genuinely useful, multilingual, and visually rich education experience.
+
+## 📸 Screenshots
+
+### AI Chat
+![AI Chat](./screenshots/chat.png)
+> Conversational Gemini-powered assistant answering election queries in multiple languages.
+
+### Election Guide
+![Election Guide](./screenshots/guide.png)
+> Interactive 7-step guide explaining the end-to-end election journey with AI insights.
+
+### Polling Booth Locator
+![Polling Booth Locator](./screenshots/booths.png)
+> Google Maps integration with Places Autocomplete to help citizens find their nearest polling station.
+
+### Election News
+![Election News](./screenshots/news.png)
+> Live election news feed powered by Google Custom Search from trusted ECI and media sources.
+
+### Timeline
+![Timeline](./screenshots/timeline.png)
+> Historical journey of Indian democracy (1952–2025) with AI-powered analysis of each milestone.
+
+> Screenshots taken from localhost. See live demo link above.
 
 ### Core Features
 
@@ -73,6 +101,18 @@ The project adheres strictly to production-ready software principles, featuring:
 4. News tab: `GET /api/news?q=...` → server checks `node-cache` (30 min TTL) → Google Custom Search → returns ≤5 results
 5. Booths tab: Google Maps JS API loaded dynamically → `GET /api/booths?lat=&lng=` → markers placed on dark-styled map
 6. Timeline: `GET /api/timeline` → static JSON → clicking any event auto-calls Gemini for explanation
+
+---
+
+## 🧭 How the Solution Works
+
+A first-time voter opens **ElectVoice** and is greeted by the **AI Chat** tab. They are curious about their first steps in the democratic process. They type *"How do I register to vote?"* in Tamil. The assistant, powered by Gemini, immediately understands the context and language, responding with step-by-step Form 6 instructions in **தமிழ்**, complete with links to the NVSP portal.
+
+Seeking more structured information, they switch to the **Election Guide** tab. They click **Step 2: Voter Registration** to see the full end-to-end process, from document requirements to the qualifying date. To find where they actually need to go on polling day, they open the **Find Booth** tab. With a single click on **Use My Location**, they see their nearest polling booths appear as custom markers on a dark-styled Google Map, with distance and directions just a tap away.
+
+To stay updated on current events, they check the **News** tab for the latest ECI notifications and verified media updates, ensuring they don't fall for misinformation. Finally, they explore the **Timeline** to understand India's rich election history and the milestones that built the world's largest democracy.
+
+> At every step, the system uses Google Services — **Gemini** for intelligence, **Maps** for location, **Custom Search** for news, and **Analytics** to improve the experience.
 
 ---
 

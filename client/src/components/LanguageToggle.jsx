@@ -36,6 +36,9 @@ export default function LanguageToggle() {
           {lang.label}
         </button>
       ))}
+      <p className="w-full text-[10px] text-center mt-1 opacity-50" style={{ color: '#8b949e' }}>
+        * Additional languages supported via Google Translate
+      </p>
     </div>
   );
 }

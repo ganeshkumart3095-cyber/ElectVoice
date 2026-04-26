@@ -2,8 +2,8 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', system-ui, sans-serif;
-    --font-display: 'Outfit', system-ui, sans-serif;
+    --font-sans: 'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', sans-serif;
+    --font-display: 'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', sans-serif;
 
     /* Brand Colors */
     --color-saffron-400: #ffb86b;
@@ -36,7 +36,7 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: 'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', sans-serif;
   background-color: #0d1117;
   color: #e6edf3;
   -webkit-font-smoothing: antialiased;
