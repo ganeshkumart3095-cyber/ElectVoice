@@ -14,10 +14,10 @@ jobs:
         working-directory: ./server
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
           cache-dependency-path: './server/package-lock.json'
       - run: npm ci
@@ -30,10 +30,10 @@ jobs:
         working-directory: ./client
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
           cache-dependency-path: './client/package-lock.json'
       - run: npm ci
@@ -47,9 +47,9 @@ jobs:
         working-directory: ./client
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
       - run: npm ci
       - run: npm run build
