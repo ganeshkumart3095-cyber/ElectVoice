@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > **Challenge Vertical:** Election Process Education  
-> **Tech Stack:** React · Node.js + Express · Google Gemini API · Google Maps JS API · Google Custom Search API · Tailwind CSS v4
+> **Tech Stack:** React · Node.js + Express · Google Gemini API · Google Maps JS API · Google Custom Search API · Firebase (Auth, Firestore, Analytics) · Tailwind CSS v4
 
 ---
 
@@ -46,6 +46,8 @@
 | Polling Booth Locator | Google Maps JavaScript API |
 | Live Election News | Google Custom Search API (30-min cache) |
 | Election Timeline (1952–2025) | REST API + Gemini explanations |
+| Secure Authentication | Firebase Auth (Google Sign-In) |
+| Real-time Message Logging | Cloud Firestore |
 | Multilingual Support | EN / हिन्दी / தமிழ் |
 
 ---
@@ -89,8 +91,8 @@ The project adheres strictly to production-ready software principles, featuring:
 └───────┼──────────┼──────────┼─────────┼─────┘
         │          │          │         │
         ▼          ▼          │         │
-  Gemini API  Google CSE   Mock Data  Static
-  (AI Chat)   (News Search)          JSON
+  Gemini API  Google CSE   Mock Data  Static     Firebase
+  (AI Chat)   (News Search)          JSON       (Auth/DB)
 ```
 
 ### Data Flow
@@ -101,6 +103,7 @@ The project adheres strictly to production-ready software principles, featuring:
 4. News tab: `GET /api/news?q=...` → server checks `node-cache` (30 min TTL) → Google Custom Search → returns ≤5 results
 5. Booths tab: Google Maps JS API loaded dynamically → `GET /api/booths?lat=&lng=` → markers placed on dark-styled map
 6. Timeline: `GET /api/timeline` → static JSON → clicking any event auto-calls Gemini for explanation
+7. **Firebase Events**: Every user message is logged to **Cloud Firestore** (`chatHistory` collection), and tab changes are tracked via **Firebase Analytics**.
 
 ---
 
@@ -112,7 +115,7 @@ Seeking more structured information, they switch to the **Election Guide** tab. 
 
 To stay updated on current events, they check the **News** tab for the latest ECI notifications and verified media updates, ensuring they don't fall for misinformation. Finally, they explore the **Timeline** to understand India's rich election history and the milestones that built the world's largest democracy.
 
-> At every step, the system uses Google Services — **Gemini** for intelligence, **Maps** for location, **Custom Search** for news, and **Analytics** to improve the experience.
+> At every step, the system uses Google Services — **Gemini** for intelligence, **Maps** for location, **Custom Search** for news, **Firebase** for persistence/auth, and **Analytics** to improve the experience.
 
 ---
 
@@ -286,6 +289,8 @@ electvoice/
 | `PORT` | Server `.env` | Server port (default: 5000) |
 | `NODE_ENV` | Server `.env` | development / production / test |
 | `VITE_GOOGLE_MAPS_API_KEY` | Client `.env` | Maps JavaScript API key |
+| `VITE_FIREBASE_API_KEY` | Client `.env` | Firebase API Key |
+| `VITE_FIREBASE_PROJECT_ID` | Client `.env` | Firebase Project ID |
 | `VITE_API_BASE_URL` | Client `.env` | Backend URL (proxied in dev) |
 
 > ⚠️ **Never commit `.env` files.** All secrets are server-side only. The client only has the Maps key (restricted by referrer in production).
@@ -318,6 +323,11 @@ electvoice/
 - **Inter** — body/UI text (weights 300–800)
 - **Outfit** — headings/display text (weights 400–800)
 - Loaded via `<link>` in index.html
+
+### Firebase Services Integration
+- **Firebase Authentication**: One-tap Google Sign-In for personalized user profiles.
+- **Cloud Firestore**: Real-time logging of all AI chat interactions for quality auditing.
+- **Firebase Analytics**: In-depth user journey tracking (tab views, message counts).
 
 ---
 
@@ -371,7 +381,7 @@ Language is passed in `{ messages, language }` body to `/api/chat`. The server's
 
 | Criteria | Implementation |
 |---|---|
-| Google Services Integration | Gemini (chat + steps + timeline), Maps (booths), Custom Search (news), Fonts |
+| Google Services Integration | Gemini (chat + steps + timeline), Maps (booths), Custom Search (news), Firebase (Auth + DB), Fonts |
 | Code Quality | Strict ESLint/Prettier, React Lazy loading, Error Boundaries, abstracted singleton services |
 | Frontend UX | Responsive, dark theme, animations, markdown rendering, strict ARIA WCAG compliance |
 | Backend Security | Enterprise `xss` payload sanitation, Joi schema validation, rate-limiting, Helmet, CORS |

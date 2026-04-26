@@ -11,11 +11,21 @@ import {
   Vote,
   ExternalLink,
   Zap,
+  LogIn,
+  LogOut,
 } from 'lucide-react';
 import { AppProvider, useAppContext } from './context/AppContext';
 import LanguageToggle from './components/LanguageToggle';
 import ChatWindow from './components/ChatWindow';
 import ErrorBoundary from './components/ErrorBoundary';
+import { 
+  auth, 
+  logFirebaseEvent, 
+  signInWithGoogle, 
+  logout 
+} from './services';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect as useReactEffect } from 'react';
 
 // Lazy load heavy components for better performance (Code Splitting)
 const StepperGuide = lazy(() => import('./components/StepperGuide'));
@@ -42,12 +52,26 @@ const TAB_COMPONENTS = {
 function AppContent() {
   const { activeTab, setActiveTab } = useAppContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // Handle Firebase Auth State
+  useReactEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
+    
+    // GA4 Tracking
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'tab_change', { tab_name: tabId });
     }
+
+    // Firebase Analytics Tracking
+    logFirebaseEvent('tab_view', { tab_name: tabId });
   };
 
   const isChatTab = activeTab === 'chat';
@@ -122,6 +146,39 @@ function AppContent() {
                 <ExternalLink size={11} />
                 ECI
               </a>
+
+              {/* Firebase Auth Button */}
+              {user ? (
+                <div className="flex items-center gap-3 ml-2">
+                  <div className="hidden sm:block text-right">
+                    <p className="text-[10px] font-bold text-white leading-none">{user.displayName}</p>
+                    <button 
+                      onClick={logout}
+                      className="text-[9px] text-[#8b949e] hover:text-[#FF9933] transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                  <img 
+                    src={user.photoURL} 
+                    alt={user.displayName}
+                    className="w-8 h-8 rounded-full border border-[#FF9933]/30"
+                  />
+                </div>
+              ) : (
+                <button
+                  onClick={signInWithGoogle}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all hover:scale-105 ml-2"
+                  style={{
+                    background: 'linear-gradient(135deg, #FF9933, #e85c00)',
+                    color: 'white',
+                    border: 'none',
+                  }}
+                >
+                  <LogIn size={11} />
+                  Sign In
+                </button>
+              )}
 
               {/* Mobile menu toggle */}
               <button

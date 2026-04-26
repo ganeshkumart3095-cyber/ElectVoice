@@ -5,6 +5,7 @@ import { Send, Trash2, Bot, User, Sparkles, AlertCircle, RefreshCw } from 'lucid
 import PropTypes from 'prop-types';
 import { useAppContext } from '../context/AppContext';
 import { sendChatMessage } from '../services/geminiService';
+import { saveChatMessage } from '../services';
 
 const SUGGESTED_QUESTIONS = [
   'How do I register to vote?',
@@ -47,6 +48,9 @@ export default function ChatWindow() {
       if (typeof window.gtag === 'function') {
         window.gtag('event', 'chat_message_sent', { language });
       }
+
+      // Firebase Firestore Logging
+      saveChatMessage(messageText, language);
 
       try {
         const updatedMessages = [...messages, userMessage];
