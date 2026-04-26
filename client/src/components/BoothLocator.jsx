@@ -47,6 +47,7 @@ export default function BoothLocator() {
     googleMapRef.current = new window.google.maps.Map(mapRef.current, {
       center: DELHI_CENTER,
       zoom: 13,
+      mapId: 'DEMO_MAP_ID',
       styles: DARK_MAP_STYLES,
       disableDefaultUI: false,
       zoomControl: true,
@@ -83,18 +84,18 @@ export default function BoothLocator() {
     markersRef.current = [];
 
     boothList.forEach((booth) => {
-      const marker = new window.google.maps.Marker({
+      const pinElement = new window.google.maps.marker.PinElement({
+        background: '#FF9933',
+        borderColor: '#ffffff',
+        glyphColor: '#ffffff',
+        scale: 0.8,
+      });
+
+      const marker = new window.google.maps.marker.AdvancedMarkerElement({
         position: { lat: booth.lat, lng: booth.lng },
         map: googleMapRef.current,
         title: booth.name,
-        icon: {
-          path: window.google.maps.SymbolPath.CIRCLE,
-          scale: 10,
-          fillColor: '#FF9933',
-          fillOpacity: 0.9,
-          strokeColor: '#ffffff',
-          strokeWeight: 2,
-        },
+        content: pinElement.element,
       });
 
       marker.addListener('click', () => {

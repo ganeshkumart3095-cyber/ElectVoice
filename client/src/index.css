@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Outfit', system-ui, sans-serif;
+@layer base {
+  :root {
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-display: 'Outfit', system-ui, sans-serif;
 
-  /* Brand Colors */
-  --color-saffron-400: #ffb86b;
-  --color-saffron-500: #ff7308;
-  --color-saffron-600: #e85c00;
-  --color-india-green: #138808;
-  --color-india-blue: #1a237e;
+    /* Brand Colors */
+    --color-saffron-400: #ffb86b;
+    --color-saffron-500: #ff7308;
+    --color-saffron-600: #e85c00;
+    --color-india-green: #138808;
+    --color-india-blue: #1a237e;
+  }
 }
 
 /* ── Base Reset & Body ── */
@@ -43,15 +45,16 @@ body {
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
 }
 ::-webkit-scrollbar-thumb {
-  background: #30363d;
+  background: rgba(255, 153, 51, 0.25);
   border-radius: 10px;
+  border: 2px solid #0d1117;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 153, 51, 0.5);

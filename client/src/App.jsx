@@ -234,12 +234,12 @@ function AppContent() {
       {/* ── Main content — flex-1 fills remaining viewport ── */}
       <main
         className={`flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 ${
-          isChatTab ? 'py-3 overflow-hidden' : 'py-6 overflow-y-auto'
+          isChatTab ? 'py-3 overflow-hidden' : 'pt-6 pb-24 overflow-y-auto'
         }`}
         style={{ minHeight: 0 }}
       >
         <div
-          className={`rounded-2xl overflow-hidden flex flex-col w-full ${isChatTab ? 'flex-1 min-h-0' : 'min-h-full'}`}
+          className={`rounded-2xl flex flex-col w-full ${isChatTab ? 'flex-1 min-h-0 overflow-hidden' : 'min-h-full'}`}
           style={{
             background: 'rgba(22,27,34,0.65)',
             border: '1px solid rgba(255,255,255,0.08)',
