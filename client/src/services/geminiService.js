@@ -1,31 +1,22 @@
-/**
- * geminiService.js
- * Abstracts all communication with the /api/chat backend endpoint.
- * The actual Gemini API key lives only on the server — never in client code.
- */
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+import axios from 'axios';
 
 /**
- * Send a message to the Gemini-powered chat endpoint.
- * @param {Array} messages - Full conversation history in Gemini format
- * @param {string} language - Language code: 'en' | 'hi' | 'ta'
- * @returns {Promise<string>} - The AI response text
+ * Sends a chat message to the backend Gemini AI service.
+ * @param {Array} messages - Chat history including the latest message
+ * @param {string} language - Preferred response language
+ * @returns {Promise<Object>} - The AI response payload
  */
-export async function sendChatMessage(messages, language = 'en') {
-  const response = await fetch(`${API_BASE}/api/chat`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ messages, language }),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `Server error: ${response.status}`);
+export const sendChatMessage = async (messages, language = 'en') => {
+  try {
+    const response = await axios.post('/api/chat', {
+      messages,
+      language,
+    });
+    
+    // The backend returns { success, data, message }
+    return response.data.data.response;
+  } catch (error) {
+    console.error('Gemini Service Error:', error.response?.data?.message || error.message);
+    throw new Error(error.response?.data?.message || 'Failed to get AI response');
   }
-
-  const data = await response.json();
-  return data.response;
-}
+};

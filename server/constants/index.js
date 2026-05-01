@@ -1,0 +1,188 @@
+/**
+ * @constant {Object} APP_CONSTANTS - Application-wide constants
+ */
+const APP_CONSTANTS = {
+  GEMINI_MODEL: 'gemini-1.5-flash-latest',
+  SUPPORTED_LANGUAGES: ['en', 'hi', 'ta'],
+  DEFAULT_LANGUAGE: 'en',
+  LANG_MAP: {
+    en: 'English',
+    hi: 'Hindi',
+    ta: 'Tamil',
+  },
+  MAX_MESSAGE_LENGTH: 4000,
+  MAX_HISTORY_LIMIT: 50,
+  GOOGLE_CSE_URL: 'https://www.googleapis.com/customsearch/v1',
+  NEWS_CACHE_TTL: 1800, // 30 minutes
+  DEFAULT_NEWS_QUERY: 'India election 2024',
+};
+
+/**
+ * @constant {Array} TIMELINE_DATA - Historical and upcoming election events
+ */
+const TIMELINE_DATA = [
+  {
+    id: 'tl_1952',
+    year: 1952,
+    title: 'First General Elections of India',
+    date: 'October 1951 – February 1952',
+    type: 'historical',
+    description: 'The first general elections held in independent India. 489 Lok Sabha seats contested.',
+    winner: 'Indian National Congress',
+    seats: 489,
+    voterTurnout: '45.7%',
+    emoji: '🗳️',
+  },
+  {
+    id: 'tl_1977',
+    year: 1977,
+    title: '6th General Elections — End of Emergency',
+    date: 'March 1977',
+    type: 'historical',
+    description: 'First election after the Emergency period. Janata Party alliance defeated Indira Gandhi\'s Congress.',
+    winner: 'Janata Party',
+    seats: 542,
+    voterTurnout: '60.5%',
+    emoji: '⚡',
+  },
+  {
+    id: 'tl_1984',
+    year: 1984,
+    title: '8th General Elections',
+    date: 'December 1984',
+    type: 'historical',
+    description: 'Congress under Rajiv Gandhi won a historic majority with 404 seats.',
+    winner: 'Indian National Congress',
+    seats: 542,
+    voterTurnout: '64.1%',
+    emoji: '📜',
+  },
+  {
+    id: 'tl_1999',
+    year: 1999,
+    title: '13th General Elections',
+    date: 'September–October 1999',
+    type: 'historical',
+    description: 'BJP-led NDA coalition won a stable majority. Atal Bihari Vajpayee became PM.',
+    winner: 'NDA (BJP-led)',
+    seats: 543,
+    voterTurnout: '59.9%',
+    emoji: '🏛️',
+  },
+  {
+    id: 'tl_2009',
+    year: 2009,
+    title: '15th General Elections',
+    date: 'April–May 2009',
+    type: 'historical',
+    description: 'UPA under Manmohan Singh returned to power. Nationwide use of EVMs.',
+    winner: 'UPA (Congress-led)',
+    seats: 543,
+    voterTurnout: '58.2%',
+    emoji: '💻',
+  },
+  {
+    id: 'tl_2014',
+    year: 2014,
+    title: '16th Lok Sabha — Modi Wave',
+    date: 'April 7 – May 12, 2014',
+    type: 'historical',
+    description: 'Narendra Modi-led BJP won an outright majority with 282 seats.',
+    winner: 'BJP (NDA)',
+    seats: 543,
+    voterTurnout: '66.4%',
+    emoji: '🌊',
+  },
+  {
+    id: 'tl_2019',
+    year: 2019,
+    title: '17th Lok Sabha — NDA Returns',
+    date: 'April 11 – May 19, 2019',
+    type: 'historical',
+    description: 'BJP won 303 seats. VVPAT used in all booths. Highest-ever turnout (67.4%).',
+    winner: 'BJP (NDA)',
+    seats: 543,
+    voterTurnout: '67.4%',
+    emoji: '🏆',
+  },
+  {
+    id: 'tl_2024',
+    year: 2024,
+    title: '18th Lok Sabha General Elections',
+    date: 'April 19 – June 1, 2024',
+    type: 'current',
+    description: 'Phase-wise elections across 7 phases. Over 970 million eligible voters.',
+    winner: 'NDA (BJP-led)',
+    seats: 543,
+    voterTurnout: '65.8%',
+    emoji: '🇮🇳',
+  },
+  {
+    id: 'tl_2025_delhi',
+    year: 2025,
+    title: 'Delhi Assembly Elections',
+    date: 'February 2025',
+    type: 'state',
+    description: 'Assembly elections for the 70-seat Delhi Vidhan Sabha.',
+    winner: 'BJP',
+    seats: 70,
+    voterTurnout: '61.2%',
+    emoji: '🏙️',
+  },
+  {
+    id: 'tl_2025_bihar',
+    year: 2025,
+    title: 'Bihar Assembly Elections',
+    date: 'October–November 2025',
+    type: 'upcoming',
+    description: 'Upcoming Bihar Vidhan Sabha elections. 243 assembly constituencies.',
+    winner: null,
+    seats: 243,
+    voterTurnout: null,
+    emoji: '📅',
+  },
+];
+
+/**
+ * @constant {Object} MOCK_BOOTHS - Simulated booth data
+ */
+const MOCK_BOOTHS = {
+  default: [
+    {
+      id: 'booth_001',
+      name: 'Government Higher Secondary School - Booth 1',
+      address: '14, M.G. Road, New Delhi - 110001',
+      lat: 28.6292,
+      lng: 77.2182,
+      constituency: 'New Delhi',
+      state: 'Delhi',
+      timings: '7:00 AM - 6:00 PM',
+    },
+    {
+      id: 'booth_002',
+      name: 'Municipal Corporation Primary School - Booth 2',
+      address: '22, Connaught Place, New Delhi - 110001',
+      lat: 28.6315,
+      lng: 77.2167,
+      constituency: 'New Delhi',
+      state: 'Delhi',
+      timings: '7:00 AM - 6:00 PM',
+    },
+    {
+      id: 'booth_003',
+      name: 'Kendriya Vidyalaya - Booth 3',
+      address: '5, Janpath Road, New Delhi - 110011',
+      lat: 28.6228,
+      lng: 77.2119,
+      constituency: 'New Delhi',
+      state: 'Delhi',
+      timings: '7:00 AM - 6:00 PM',
+    },
+  ],
+};
+
+module.exports = {
+  APP_CONSTANTS,
+  TIMELINE_DATA,
+  MOCK_BOOTHS,
+};

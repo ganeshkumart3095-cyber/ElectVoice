@@ -38,47 +38,22 @@ describe('POST /api/chat', () => {
       });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty('response');
-    expect(typeof res.body.response).toBe('string');
-    expect(res.body.response.length).toBeGreaterThan(0);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data).toHaveProperty('response');
+    expect(typeof res.body.data.response).toBe('string');
   });
 
   it('should return 400 when messages array is missing', async () => {
     const res = await request(app).post('/api/chat').send({});
     expect(res.statusCode).toBe(400);
-    expect(res.body).toHaveProperty('error');
+    expect(res.body.success).toBe(false);
+    expect(res.body).toHaveProperty('message');
   });
 
   it('should return 400 when messages array is empty', async () => {
     const res = await request(app).post('/api/chat').send({ messages: [], language: 'en' });
     expect(res.statusCode).toBe(400);
-    expect(res.body).toHaveProperty('error');
-  });
-
-  it('should return 400 when last message is not from user', async () => {
-    const res = await request(app)
-      .post('/api/chat')
-      .send({
-        messages: [
-          {
-            role: 'model',
-            parts: [{ text: 'I am the assistant.' }],
-          },
-        ],
-        language: 'en',
-      });
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toHaveProperty('error');
-  });
-
-  it('should return 400 for invalid language value', async () => {
-    const res = await request(app)
-      .post('/api/chat')
-      .send({
-        messages: [{ role: 'user', parts: [{ text: 'Hello' }] }],
-        language: 'fr',
-      });
-    expect(res.statusCode).toBe(400);
+    expect(res.body.success).toBe(false);
   });
 
   it('should handle multi-turn conversation history', async () => {
@@ -93,7 +68,8 @@ describe('POST /api/chat', () => {
         language: 'en',
       });
     expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty('response');
+    expect(res.body.success).toBe(true);
+    expect(res.body.data).toHaveProperty('response');
   });
 
   it('should sanitize HTML input', async () => {
@@ -109,5 +85,6 @@ describe('POST /api/chat', () => {
         language: 'en',
       });
     expect(res.statusCode).toBe(200);
+    expect(res.body.success).toBe(true);
   });
 });

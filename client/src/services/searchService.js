@@ -1,63 +1,45 @@
-/**
- * searchService.js
- * Abstracts communication with the /api/news and /api/booths backend endpoints.
- */
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+import axios from 'axios';
 
 /**
- * Fetch election news from Google Custom Search (via server).
- * @param {string} query - Search term
- * @returns {Promise<Array>} - Array of news result objects
+ * Fetches polling booths based on user location or constituency.
+ * @param {Object} params - Search parameters (lat, lng, constituency)
+ * @returns {Promise<Array>} - List of polling booths
  */
-export async function fetchElectionNews(query = 'India election 2024') {
-  const params = new URLSearchParams({ q: query });
-  const response = await fetch(`${API_BASE}/api/news?${params}`);
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `Server error: ${response.status}`);
+export const fetchPollingBooths = async (params) => {
+  try {
+    const response = await axios.get('/api/booths', { params });
+    return response.data.data;
+  } catch (error) {
+    console.error('Polling Booths Error:', error.message);
+    return [];
   }
-
-  const data = await response.json();
-  return data.results || [];
-}
+};
 
 /**
- * Fetch nearby polling booths.
- * @param {Object} params - { lat, lng } or { constituency, state }
- * @returns {Promise<Array>} - Array of booth objects
+ * Fetches latest election news from the backend.
+ * @param {string} query - Search query for news
+ * @returns {Promise<Array>} - List of news articles
  */
-export async function fetchPollingBooths({ lat, lng, constituency, state } = {}) {
-  const params = new URLSearchParams();
-  if (lat !== undefined) params.append('lat', lat);
-  if (lng !== undefined) params.append('lng', lng);
-  if (constituency) params.append('constituency', constituency);
-  if (state) params.append('state', state);
-
-  const response = await fetch(`${API_BASE}/api/booths?${params}`);
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `Server error: ${response.status}`);
+export const fetchElectionNews = async (query) => {
+  try {
+    const response = await axios.get('/api/news', { params: { q: query } });
+    return response.data.data;
+  } catch (error) {
+    console.error('Election News Error:', error.message);
+    return [];
   }
-
-  const data = await response.json();
-  return data.booths || [];
-}
+};
 
 /**
- * Fetch election timeline data.
- * @returns {Promise<Array>} - Array of timeline event objects
+ * Fetches historical and upcoming election timeline data.
+ * @returns {Promise<Array>} - Timeline events
  */
-export async function fetchTimeline() {
-  const response = await fetch(`${API_BASE}/api/timeline`);
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `Server error: ${response.status}`);
+export const fetchTimeline = async () => {
+  try {
+    const response = await axios.get('/api/timeline');
+    return response.data.data;
+  } catch (error) {
+    console.error('Timeline Service Error:', error.message);
+    return [];
   }
-
-  const data = await response.json();
-  return data.timeline || [];
-}
+};
